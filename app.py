@@ -29,6 +29,7 @@ option = st.sidebar.selectbox(
     [
         "🏠 Home",
         "📝 Donor Register",
+        "📋 View Donors",
         "🎯 Receiver Register",
         "🍽️ Add Food Listing",
         "🔍 Filter/Search",
@@ -82,6 +83,22 @@ if option == "📝 Donor Register":
         conn.commit()
         conn.close()
         st.success("Donor registered successfully!")
+        
+        
+# View donors       
+elif option == "📋 View Donors":
+    st.subheader("📋 Registered Food Donors")
+    conn = get_connection()
+    df = pd.read_sql("SELECT * FROM Providers", conn)
+    conn.close()
+    
+    if not df.empty:
+        st.dataframe(df)
+        st.success(f"{len(df)} donors found.")
+    else:
+        st.warning("No donor data found.")
+      
+
 
 # 🎯 Receiver Register Form
 if option == "🎯 Receiver Register":
